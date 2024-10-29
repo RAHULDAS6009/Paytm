@@ -24,6 +24,7 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         //todo zod and otp
+
         // const parseResult = credentialsSchema.safeParse(credentials);
         // if (!parseResult.success) {
         //   console.error("validation error:", parseResult.error.errors);
@@ -57,12 +58,16 @@ export const authOptions = {
           return null;
         }
         try {
+          console.log("hello world 1");
+          console.log(credentials);
           const user = await db.user.create({
             data: {
               number: credentials.phone,
               password: hashedPassword,
             },
           });
+          console.log(user);
+          
           return {
             id: user.id.toString(),
             name: user.name,

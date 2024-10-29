@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./appBar": "./src/AppBar.tsx",
     "./demo": "./src/demo.tsx",
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
