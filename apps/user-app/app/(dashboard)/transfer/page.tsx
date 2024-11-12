@@ -7,14 +7,14 @@ import {
 
 function Page(): JSX.Element {
   return (
-    <div className="w-full h-screen  flex ">
-      <div className="w-1/2 border">
-        <span className="text-4xl font-medium text-purple-600">Transfer</span>
+    <div className="w-full h-screen  flex p-2 gap-2">
+      <div className="w-1/2 border flex flex-col gap-5">
+        <span className="text-4xl font-medium text-purple-600 ">Transfer</span>
         <AddMoney />
       </div>
-      <div className="w-1/2 flex-col">
-        <OnRampTranscation />
+      <div className="w-1/2 flex flex-col gap-2">
         <Balance />
+        <OnRampTranscation />
       </div>
     </div>
   );
