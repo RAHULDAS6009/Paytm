@@ -1,22 +1,30 @@
 "use client";
 import { AppBar } from "@repo/ui/appBar";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+// import { redirect } from "next/navigation";
+
 import React from "react";
 
 const AppBarClient = () => {
   const session = useSession();
-  const router = useRouter();
+  // useEffect(() => {
+  //   if (session.data !== undefined) {
+  //     redirect("/dashboard");
+  //   } else {
+  //     redirect("/api/auth/signin");
+  //   }
+  // }, []);
   return (
     <div>
       <AppBar
         user={session.data?.user}
-        onSignIn={signIn}
+        onSignIn={async () => {
+          await signIn();
+        }}
         onSignOut={async () => {
           await signOut();
-          router.push("api/auth/signin");
         }}
-      ></AppBar>
+      />
     </div>
   );
 };

@@ -58,7 +58,6 @@ export const authOptions = {
           return null;
         }
         try {
-          console.log("hello world 1");
           console.log(credentials);
           const user = await db.user.create({
             data: {
