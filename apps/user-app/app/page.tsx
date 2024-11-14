@@ -1,19 +1,13 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "./lib/auth";
 
-// import { useSession } from "next-auth/react";
-// import { redirect } from "next/navigation";
-// import { useEffect } from "react";
-
-export default function Page() {
-  // const session = useSession();
-  // useEffect(() => {
-  //   console.log("hello form page.tsx");
-
-  //   if (!session) {
-  //     redirect("/api/auth/signin");
-  //   } else {
-  //     redirect("/dashboard");
-  //   }
-  // });
-  return <div></div>;
+export default async function Page() {
+  const session =await getServerSession(authOptions);
+  
+  if (session?.user) {
+    redirect("/dashboard");
+  } else {
+    redirect("/api/auth/signin");
+  }
 }

@@ -1,10 +1,11 @@
 import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+// import { number } from "zod";
 // import { z } from "zod";
 // import { JWT, Session } from "next-auth";
 // const credentialsSchema = z.object({
-//   phone: z.string().min(10, "Phone number must be 10 digits"),
+//   number: z.string().min(10, "Number number must be 10 digits"),
 //   password: z.string().min(6, "password must be atleat six characters"),
 //   otp: z.string().optional(),
 // });
@@ -14,7 +15,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        phone: {
+        number: {
           label: "Phone Number",
           type: "text",
           placeholder: "1234567890",
@@ -31,7 +32,7 @@ export const authOptions = {
         //   return null;
         // }
         // if (credentials.otp) {
-        //   const isOtpValid = await verifyOtp(credentials.phone, credentials.otp); // replace with actual OTP verification
+        //   const isOtpValid = await verifyOtp(credentials.number, credentials.otp); // replace with actual OTP verification
         //   if (!isOtpValid) {
         //     console.error("Invalid OTP");
         //     return null;
@@ -40,7 +41,7 @@ export const authOptions = {
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
         const exsistingUser = await db.user.findFirst({
           where: {
-            number: credentials.phone,
+            number: credentials.number,
           },
         });
         if (exsistingUser) {
@@ -61,7 +62,7 @@ export const authOptions = {
           console.log(credentials);
           const user = await db.user.create({
             data: {
-              number: credentials.phone,
+              number: credentials.number,
               password: hashedPassword,
             },
           });
