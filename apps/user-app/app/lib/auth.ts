@@ -1,6 +1,6 @@
 import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs"
 // import { number } from "zod";
 // import { z } from "zod";
 // import { JWT, Session } from "next-auth";

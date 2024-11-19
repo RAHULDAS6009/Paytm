@@ -40,16 +40,18 @@ async function Page(): Promise<JSX.Element> {
   const balance = await getBalance();
   const transactions = await getOnRampTransactions();
   return (
-    <div className="w-full h-screen  flex p-2 gap-2">
-      <div className="w-1/2 border flex flex-col gap-5">
-        <span className="text-4xl font-medium text-purple-600 ">Transfer</span>
-        <AddMoney />
+    <>
+      <div className="text-4xl font-medium text-purple-600 ">Transfer</div>
+      <div className="w-full h-screen  flex p-2 gap-2">
+        <div className="w-1/2 border flex flex-col gap-5">
+          <AddMoney />
+        </div>
+        <div className="w-1/2 flex flex-col gap-2">
+          <Balance amount={balance.amount} locked={balance.locked} />
+          <OnRampTranscation transactions={transactions} />
+        </div>
       </div>
-      <div className="w-1/2 flex flex-col gap-2">
-        <Balance amount={balance.amount} locked={balance.locked} />
-        <OnRampTranscation transactions={transactions} />
-      </div>
-    </div>
+    </>
   );
 }
 

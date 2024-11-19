@@ -1,5 +1,5 @@
 import { Card } from "@repo/ui/card";
-import React, { ReactNode } from "react";
+import React from "react";
 
 export const OnRampTranscation = ({
   transactions,
@@ -12,9 +12,11 @@ export const OnRampTranscation = ({
   }[];
 }) => {
   if (!transactions.length) {
-    <Card title="Recent Transactions">
-      <div className="text-center pb-8 pt-8">No Recent Transactions</div>
-    </Card>;
+    return (
+      <Card title="Recent Transactions">
+        <div className="text-center pb-8 pt-8 text-gray-400 font-semibold">No Recent Transactions</div>
+      </Card>
+    );
   }
   return (
     <Card title="Recent Transactions">
