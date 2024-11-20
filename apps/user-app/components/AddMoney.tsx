@@ -12,9 +12,7 @@ const SUPPORTED_BANKS = [
 ];
 
 export const AddMoney = () => {
-  const [, setRedirectUrl] = useState(
-    SUPPORTED_BANKS[0]?.redirectUrl
-  );
+  const [, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);
   const [amount, setAmount] = useState("");
   const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
   return (
@@ -41,14 +39,16 @@ export const AddMoney = () => {
             return { key: x.name, value: x.name };
           })}
         />
-        <Button
-          onClick={() => {
-            console.log(Number(amount), provider)
-            createOnRampTransaction(Number(amount), provider);
-          }}
-        >
-          Add Money
-        </Button>
+        <div className="w-1/6 mx-auto">
+          <Button
+            onClick={() => {
+              console.log(Number(amount), provider);
+              createOnRampTransaction(Number(amount), provider);
+            }}
+          >
+            Add Money
+          </Button>
+        </div>
       </div>
     </Card>
   );

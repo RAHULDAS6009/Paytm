@@ -7,9 +7,13 @@ import {
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import prisma from "@repo/db/client";
+import { redirect } from "next/navigation";
 
 async function getBalance() {
   const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
   const balance = await prisma.balance.findFirst({
     where: {
       userId: Number(session?.user?.id),
@@ -23,12 +27,17 @@ async function getBalance() {
 
 async function getOnRampTransactions() {
   const session = await getServerSession(authOptions);
-  const transactions = await prisma.onRampTransaction.findMany({
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
+  const txns = await prisma.onRampTransaction.findMany({
     where: {
       userId: Number(session?.user?.id),
     },
   });
-  return transactions.map((t) => ({
+
+  
+  return txns.map((t) => ({
     time: t.startTime,
     amount: t.amount,
     status: t.status,
@@ -36,23 +45,26 @@ async function getOnRampTransactions() {
   }));
 }
 
-async function Page(): Promise<JSX.Element> {
+export default async function () {
   const balance = await getBalance();
   const transactions = await getOnRampTransactions();
-  return (
-    <>
-      <div className="text-4xl font-medium text-purple-600 ">Transfer</div>
-      <div className="w-full h-screen  flex p-2 gap-2">
-        <div className="w-1/2 border flex flex-col gap-5">
+
+  return (  
+    <div className="w-screen">
+      <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">
+        Transfer
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 p-4">
+        <div>
           <AddMoney />
         </div>
-        <div className="w-1/2 flex flex-col gap-2">
+        <div>
           <Balance amount={balance.amount} locked={balance.locked} />
-          <OnRampTranscation transactions={transactions} />
+          <div className="pt-4">
+            <OnRampTranscation transactions={transactions} />
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
-
-export default Page;
