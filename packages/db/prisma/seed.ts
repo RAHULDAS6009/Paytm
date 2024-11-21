@@ -4,15 +4,17 @@ const prisma = new PrismaClient();
 
 async function main() {
   const alice = await prisma.user.upsert({
-    where: { number: "9999999995" },
-    update: {},
+    where: { number: "1111111111" },
+    update: {
+      name:"alice1"
+    },
     create: {
-      number: "999999995",
+      number: "1111111111",
       password: await bcrypt.hash("alice", 10),
       name: "alice",
       Balance: {
         create: {
-          amount: 2000,
+          amount: 2000100,
           locked: 0,
         },
       },
@@ -21,18 +23,33 @@ async function main() {
           startTime: new Date(),
           status: "Success",
           amount: 20000,
-          token: "122",
+          token: "token__1",
           provider: "HDFC Bank",
         },
       },
     },
   });
-
+  if(alice.id){
+    const aliceBalance = await prisma.balance.upsert({
+      where: { userId: alice.id },
+      update: {
+        amount: 500000,
+        locked: 0,
+      },
+      create: {
+        userId: alice.id,
+        amount: 30000,
+        locked: 0,
+      },
+    });
+    console.log({aliceBalance})
+  }
+  
   const bob = await prisma.user.upsert({
-    where: { number: "9999999996" },
+    where: { number: "2222222222" },
     update: {},
     create: {
-      number: "999999996",
+      number: "2222222222",
       password: await bcrypt.hash("bob", 10),
       name: "bob",
       Balance: {
@@ -46,16 +63,14 @@ async function main() {
           startTime: new Date(),
           status: "Failure",
           amount: 2000,
-          token: "123",
+          token: "token__2",
           provider: "HDFC Bank",
         },
       },
     },
   });
-
-  console.log({ alice, bob });
+  console.log({ alice, bob});
 }
-
 main()
   .then(async () => {
     await prisma.$disconnect();

@@ -1,7 +1,7 @@
 import express from "express";
 import db from "@repo/db/client";
-import dotenv from 'dotenv'; 
-dotenv.config(); 
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -41,7 +41,7 @@ app.post("/hdfcWebhook", async (req, res) => {
       msg: "Captured",
     });
   } catch (error) {
-    res.json(411).json({
+    res.status(411).json({
       msg: "Error while Processing webhook",
     });
   }

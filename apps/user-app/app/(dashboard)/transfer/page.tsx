@@ -36,7 +36,6 @@ async function getOnRampTransactions() {
     },
   });
 
-  
   return txns.map((t) => ({
     time: t.startTime,
     amount: t.amount,
@@ -49,8 +48,8 @@ export default async function () {
   const balance = await getBalance();
   const transactions = await getOnRampTransactions();
 
-  return (  
-    <div className="w-screen">
+  return (
+    <div className="w-full">
       <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">
         Transfer
       </div>
@@ -60,7 +59,7 @@ export default async function () {
         </div>
         <div>
           <Balance amount={balance.amount} locked={balance.locked} />
-          <div className="pt-4">
+          <div className="mt-2  h-1/2 overflow-y-auto">
             <OnRampTranscation transactions={transactions} />
           </div>
         </div>

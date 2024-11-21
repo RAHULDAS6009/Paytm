@@ -5,14 +5,15 @@ import { TextInput } from "@repo/ui/text-input";
 import { Select } from "@repo/ui/select";
 import { Button } from "@repo/ui/button";
 import { createOnRampTransaction } from "../app/lib/actions/createOnRampTransaction";
+import { redirect } from "next/navigation";
 
 const SUPPORTED_BANKS = [
-  { name: "HDFC Bank", redirectUrl: "https://netbanking.hdfcbank.com" },
-  { name: "Axis Bank", redirectUrl: "https://netbanking.axisbank.com" },
+  { name: "HDFC Bank", redirectUrl: "http://localhost:5000/hdfcwebhook" },
+  { name: "Axis Bank", redirectUrl: "http://localhost:5000/hdfcwebhook" },
 ];
 
 export const AddMoney = () => {
-  const [, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);
+  const [redirectUrl, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);
   const [amount, setAmount] = useState("");
   const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
   return (
@@ -41,9 +42,11 @@ export const AddMoney = () => {
         />
         <div className="w-1/6 mx-auto">
           <Button
-            onClick={() => {
+            onClick={async() => {
+              // window.location.href=redirectUrl||""
               console.log(Number(amount), provider);
-              createOnRampTransaction(Number(amount), provider);
+              await createOnRampTransaction(Number(amount), provider);
+              redirect("/transfer")
             }}
           >
             Add Money
